@@ -33,6 +33,12 @@ def test_fibonacci_recursive_cases():
     assert get_nth_fibonacci(5) == 5
     assert get_nth_fibonacci(10) == 55
 
+def test_get_nth_fibonacci_ten():
+    """Test with n=10."""
+    n = 10
+    result = get_nth_fibonacci(n)
+    assert result == 55  # Assuming 0-based indexing
+
 def test_fibonacci_negative():
     with pytest.raises(ValueError):
         get_nth_fibonacci(-1)
