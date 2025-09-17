@@ -1,4 +1,4 @@
-name: Python application CI
+name: Python Tests
 
 on:
   push:
@@ -7,24 +7,31 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.x'
+        python-version: '3.11'
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        python -m venv .venv
+        source .venv/bin/activate
         pip install -r requirements.txt
-        pip install pytest coverage pytest-cov
+        pip install pytest pytest-cov
 
     - name: Run tests with coverage
       run: |
+        source .venv/bin/activate
         pytest --cov=src --verbose
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
